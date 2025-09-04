@@ -1,4 +1,4 @@
-name: Build eco files (pgn-extract + Lichess)
+name: Build ECO files (no-PR)
 
 on:
   workflow_dispatch: {}
@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   build:
@@ -16,17 +15,16 @@ jobs:
       - name: Checkout your repo
         uses: actions/checkout@v4
 
-      # --- pgn-extract flavor (canonical/standard) ---
+      # --- pgn-extract flavor (canonical) ---
       - name: Install pgn-extract and copy its eco.pgn
         run: |
           sudo apt-get update
           sudo apt-get install -y pgn-extract
           mkdir -p data
-          # Package location is standard on Linux distros:
           cp /usr/share/pgn-extract/eco.pgn data/eco-pgn-extract.pgn
 
-      # --- Lichess flavor (built from TSVs) ---
-      - name: Checkout Lichess chess-openings
+      # --- Lichess flavor (from TSVs) ---
+      - name: Checkout lichess chess-openings
         uses: actions/checkout@v4
         with:
           repository: lichess-org/chess-openings
@@ -54,25 +52,18 @@ jobs:
                 eco = (row.get('eco') or '').strip()
                 name = (row.get('name') or '').strip()
                 pgn  = (row.get('pgn') or '').strip()
-                if not (eco and name and pgn):
-                  continue
-                rows.append((eco, name, pgn))
+                if eco and name and pgn:
+                  rows.append((eco, name, pgn))
 
-          # Sort by ECO, then name then pgn for stable output
           rows.sort(key=lambda x: (x[0], x[1], x[2]))
 
           def split_name(n):
-            if ': ' in n:
-              fam, var = n.split(': ', 1)
-            else:
-              fam, var = n, ''
-            return fam, var
+            return n.split(': ', 1) + [''] if ': ' in n else [n, '']
 
-          # Write PGN entries similar to pgn-extract structure
           out.parent.mkdir(parents=True, exist_ok=True)
           with out.open('w', encoding='utf-8', newline='\n') as w:
             for eco, name, line in rows:
-              opening, variation = split_name(name)
+              opening, variation = split_name(name)[:2]
               w.write('[Event "ECO"]\n')
               w.write('[Site "lichess-org/chess-openings"]\n')
               w.write('[Date "????.??.??"]\n')
@@ -89,7 +80,7 @@ jobs:
               if not moves.endswith(('*','1-0','0-1','1/2-1/2')):
                 moves += ' *'
               w.write(moves + '\n\n')
-          print(f"wrote {out}")
+          print(f"Wrote {out}")
           PY
 
       - name: Upload artifacts
@@ -100,13 +91,30 @@ jobs:
             data/eco-pgn-extract.pgn
             data/eco-lichess.pgn
 
-      # Commit via PR (safe for protected default branches)
-      - name: Create PR with updates
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: "Update eco files (pgn-extract + Lichess)"
-          title: "Update eco files (pgn-extract + Lichess)"
-          branch: update-eco
-          add-paths: |
-            data/eco-pgn-extract.pgn
-            data/eco-lichess.pgn
+      # --- Commit to a new branch; you open the PR manually ---
+      - name: Commit to update branch if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/eco-pgn-extract.pgn data/eco-lichess.pgn; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          BRANCH="update-eco-$(date -u +%Y%m%d)"
+          git fetch origin
+          if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+            git switch "$BRANCH"
+          else
+            git switch -c "$BRANCH"
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/eco-pgn-extract.pgn data/eco-lichess.pgn
+          git commit -m "Update ECO files"
+          git push -u origin "$BRANCH"
+
+          echo "Pushed changes to branch: $BRANCH"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Next step" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Open a PR from \`$BRANCH\` into your default branch." >> "$GITHUB_STEP_SUMMARY"
