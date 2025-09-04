@@ -1,9 +1,9 @@
-name: Build ECO files (commit with fallback)
+name: Build eco.pgn
 
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "0 3 * * 1"  # weekly, Mon 03:00 UTC
+    - cron: "0 3 * * 1"   # optional weekly update (Mon 03:00 UTC)
 
 permissions:
   contents: write
@@ -11,24 +11,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: true
 
-      # --- pgn-extract flavor (canonical) ---
-      - name: Install pgn-extract and copy its eco.pgn
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pgn-extract
-          mkdir -p data
-          cp /usr/share/pgn-extract/eco.pgn data/eco-pgn-extract.pgn
-
-      # --- Lichess flavor (from TSVs) ---
       - name: Checkout lichess chess-openings
         uses: actions/checkout@v4
         with:
@@ -40,35 +26,37 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Generate eco-lichess.pgn from TSVs
+      # Generate eco.pgn from Lichess TSVs (a.tsv...e.tsv)
+      - name: Build eco.pgn from TSV
         run: |
+          set -euo pipefail
+          mkdir -p data
           python - <<'PY'
           import csv, pathlib
 
-          src = pathlib.Path('chess-openings')
-          out = pathlib.Path('data/eco-lichess.pgn')
-          files = [src / f"{ch}.tsv" for ch in "abcde"]
+          base = pathlib.Path('chess-openings')
+          out  = pathlib.Path('data/eco.pgn')
+          files = [base / f"{ch}.tsv" for ch in "abcde"]
 
           rows = []
           for f in files:
             with f.open(newline='', encoding='utf-8') as fh:
               r = csv.DictReader(fh, delimiter='\t')
               for row in r:
-                eco = (row.get('eco') or '').strip()
-                name = (row.get('name') or '').strip()
-                pgn  = (row.get('pgn') or '').strip()
+                eco = (row.get('eco') or row.get('ECO') or '').strip()
+                name = (row.get('name') or row.get('Name') or '').strip()
+                pgn = (row.get('pgn') or row.get('PGN') or '').strip()
                 if eco and name and pgn:
                   rows.append((eco, name, pgn))
-          rows.sort(key=lambda x: (x[0], x[1], x[2]))
+          rows.sort(key=lambda x: x[0])  # sort by ECO code
 
-          def split_name(n):
-            return n.split(': ', 1) + [''] if ': ' in n else [n, '']
-
-          out.parent.mkdir(parents=True, exist_ok=True)
           with out.open('w', encoding='utf-8', newline='\n') as w:
-            for eco, name, line in rows:
-              opening, variation = split_name(name)[:2]
-              w.write('[Event "ECO"]\n')
+            for eco, name, pgn in rows:
+              if ': ' in name:
+                fam, var = name.split(': ', 1)
+              else:
+                fam, var = name, ''
+              w.write('[Event "?"]\n')
               w.write('[Site "lichess-org/chess-openings"]\n')
               w.write('[Date "????.??.??"]\n')
               w.write('[Round "?"]\n')
@@ -76,60 +64,31 @@ jobs:
               w.write('[Black "?"]\n')
               w.write('[Result "*"]\n')
               w.write(f'[ECO "{eco}"]\n')
-              w.write(f'[Opening "{opening}"]\n')
-              if variation:
-                w.write(f'[Variation "{variation}"]\n')
+              w.write(f'[Opening "{fam}"]\n')
+              if var:
+                w.write(f'[Variation "{var}"]\n')
               w.write('\n')
-              moves = line.strip()
-              if not moves.endswith(('*','1-0','0-1','1/2-1/2')):
-                moves += ' *'
-              w.write(moves + '\n\n')
-          print(f"Wrote {out}")
+              mv = pgn
+              if not mv.endswith(('*','1-0','0-1','1/2-1/2')):
+                mv = (mv + ' *').strip()
+              w.write(mv + '\n\n')
+          print(f"Wrote {len(rows)} records to {out}")
           PY
 
-      - name: Upload artifacts
+      - name: Commit & push if changed
+        run: |
+          if [ -n "$(git status --porcelain data/eco.pgn)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/eco.pgn
+            git commit -m "Update eco.pgn from lichess TSVs"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Upload eco.pgn as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: eco-files
-          path: |
-            data/eco-pgn-extract.pgn
-            data/eco-lichess.pgn
-
-      # --- Commit directly to default branch; if blocked, push to a topic branch ---
-      - name: Commit files (with protected-branch fallback)
-        run: |
-          set -euo pipefail
-
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Stage new/changed files (include untracked)
-          git add -A data/eco-pgn-extract.pgn data/eco-lichess.pgn
-
-          # If nothing staged, stop
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          # Ensure we're on the default branch
-          git fetch origin "$DEFAULT_BRANCH":"$DEFAULT_BRANCH"
-          git checkout "$DEFAULT_BRANCH"
-
-          # Re-stage after checkout
-          git add -A data/eco-pgn-extract.pgn data/eco-lichess.pgn
-          git commit -m "Update ECO files (pgn-extract + Lichess)"
-
-          # Try direct push; if it fails (protected branch), fall back to a topic branch
-          if git push origin "$DEFAULT_BRANCH"; then
-            echo "Pushed directly to $DEFAULT_BRANCH"
-          else
-            echo "Direct push failed (likely protected branch). Falling back to a topic branch."
-            BRANCH="update-eco-$(date -u +%Y%m%d)"
-            git checkout -b "$BRANCH"
-            git push -u origin "$BRANCH"
-            {
-              echo "### Manual step needed"
-              echo "Pushed changes to \`$BRANCH\`. Open a PR into \`$DEFAULT_BRANCH\`."
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
+          name: eco.pgn
+          path: data/eco.pgn
