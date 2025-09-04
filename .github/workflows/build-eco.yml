@@ -1,12 +1,12 @@
 name: Build eco.pgn
 
 on:
-  workflow_dispatch: {}          # run by button
+  workflow_dispatch: {}
   schedule:
-    - cron: "0 3 * * 1"          # optional: weekly update (Mon 03:00 UTC)
+    - cron: "0 3 * * 1"   # optional weekly update (Mon 03:00 UTC)
 
 permissions:
-  contents: write                # allow pushes from GITHUB_TOKEN
+  contents: write
 
 jobs:
   build:
@@ -26,31 +26,68 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      # Generate eco.pgn from Lichess TSVs (a.tsv...e.tsv)
+      - name: Build eco.pgn from TSV
         run: |
-          python -m pip install --upgrade pip
-          pip install chess
-
-      - name: Build dist (eco.pgn, etc.)
-        working-directory: chess-openings
-        run: make
-
-      - name: Copy eco.pgn into this repo
-        run: |
+          set -euo pipefail
           mkdir -p data
-          cp chess-openings/dist/eco.pgn data/eco.pgn
+          python - <<'PY'
+          import csv, pathlib
 
-      - name: Commit to branch and open PR
+          base = pathlib.Path('chess-openings')
+          out  = pathlib.Path('data/eco.pgn')
+          files = [base / f"{ch}.tsv" for ch in "abcde"]
+
+          rows = []
+          for f in files:
+            with f.open(newline='', encoding='utf-8') as fh:
+              r = csv.DictReader(fh, delimiter='\t')
+              for row in r:
+                eco = (row.get('eco') or row.get('ECO') or '').strip()
+                name = (row.get('name') or row.get('Name') or '').strip()
+                pgn = (row.get('pgn') or row.get('PGN') or '').strip()
+                if eco and name and pgn:
+                  rows.append((eco, name, pgn))
+          rows.sort(key=lambda x: x[0])  # sort by ECO code
+
+          with out.open('w', encoding='utf-8', newline='\n') as w:
+            for eco, name, pgn in rows:
+              if ': ' in name:
+                fam, var = name.split(': ', 1)
+              else:
+                fam, var = name, ''
+              w.write('[Event "?"]\n')
+              w.write('[Site "lichess-org/chess-openings"]\n')
+              w.write('[Date "????.??.??"]\n')
+              w.write('[Round "?"]\n')
+              w.write('[White "?"]\n')
+              w.write('[Black "?"]\n')
+              w.write('[Result "*"]\n')
+              w.write(f'[ECO "{eco}"]\n')
+              w.write(f'[Opening "{fam}"]\n')
+              if var:
+                w.write(f'[Variation "{var}"]\n')
+              w.write('\n')
+              mv = pgn
+              if not mv.endswith(('*','1-0','0-1','1/2-1/2')):
+                mv = (mv + ' *').strip()
+              w.write(mv + '\n\n')
+          print(f"Wrote {len(rows)} records to {out}")
+          PY
+
+      - name: Commit & push if changed
         run: |
-          BRANCH=update-eco-$(date +%Y%m%d)
-          git checkout -b "$BRANCH"
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/eco.pgn
-          git commit -m "Update eco.pgn"
-          git push -u origin "$BRANCH"
+          if [ -n "$(git status --porcelain data/eco.pgn)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/eco.pgn
+            git commit -m "Update eco.pgn from lichess TSVs"
+            git push
+          else
+            echo "No changes to commit."
+          fi
 
-      - name: Upload eco.pgn as a workflow artifact (optional)
+      - name: Upload eco.pgn as artifact
         uses: actions/upload-artifact@v4
         with:
           name: eco.pgn
