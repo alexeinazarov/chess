@@ -1,4 +1,4 @@
-name: Build ECO files (no-PR)
+name: Build ECO files (commit with fallback)
 
 on:
   workflow_dispatch: {}
@@ -11,9 +11,14 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       # --- pgn-extract flavor (canonical) ---
       - name: Install pgn-extract and copy its eco.pgn
@@ -54,7 +59,6 @@ jobs:
                 pgn  = (row.get('pgn') or '').strip()
                 if eco and name and pgn:
                   rows.append((eco, name, pgn))
-
           rows.sort(key=lambda x: (x[0], x[1], x[2]))
 
           def split_name(n):
@@ -91,30 +95,41 @@ jobs:
             data/eco-pgn-extract.pgn
             data/eco-lichess.pgn
 
-      # --- Commit to a new branch; you open the PR manually ---
-      - name: Commit to update branch if changed
+      # --- Commit directly to default branch; if blocked, push to a topic branch ---
+      - name: Commit files (with protected-branch fallback)
         run: |
           set -euo pipefail
-          if git diff --quiet -- data/eco-pgn-extract.pgn data/eco-lichess.pgn; then
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stage new/changed files (include untracked)
+          git add -A data/eco-pgn-extract.pgn data/eco-lichess.pgn
+
+          # If nothing staged, stop
+          if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
 
-          BRANCH="update-eco-$(date -u +%Y%m%d)"
-          git fetch origin
-          if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
-            git switch "$BRANCH"
+          # Ensure we're on the default branch
+          git fetch origin "$DEFAULT_BRANCH":"$DEFAULT_BRANCH"
+          git checkout "$DEFAULT_BRANCH"
+
+          # Re-stage after checkout
+          git add -A data/eco-pgn-extract.pgn data/eco-lichess.pgn
+          git commit -m "Update ECO files (pgn-extract + Lichess)"
+
+          # Try direct push; if it fails (protected branch), fall back to a topic branch
+          if git push origin "$DEFAULT_BRANCH"; then
+            echo "Pushed directly to $DEFAULT_BRANCH"
           else
-            git switch -c "$BRANCH"
+            echo "Direct push failed (likely protected branch). Falling back to a topic branch."
+            BRANCH="update-eco-$(date -u +%Y%m%d)"
+            git checkout -b "$BRANCH"
+            git push -u origin "$BRANCH"
+            {
+              echo "### Manual step needed"
+              echo "Pushed changes to \`$BRANCH\`. Open a PR into \`$DEFAULT_BRANCH\`."
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
-
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/eco-pgn-extract.pgn data/eco-lichess.pgn
-          git commit -m "Update ECO files"
-          git push -u origin "$BRANCH"
-
-          echo "Pushed changes to branch: $BRANCH"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "### Next step" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Open a PR from \`$BRANCH\` into your default branch." >> "$GITHUB_STEP_SUMMARY"
