@@ -1,12 +1,13 @@
-name: Build eco.pgn
+name: Build eco files (pgn-extract + Lichess)
 
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "0 3 * * 1"   # optional weekly update (Mon 03:00 UTC)
+    - cron: "0 3 * * 1"  # weekly, Mon 03:00 UTC
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -15,7 +16,17 @@ jobs:
       - name: Checkout your repo
         uses: actions/checkout@v4
 
-      - name: Checkout lichess chess-openings
+      # --- pgn-extract flavor (canonical/standard) ---
+      - name: Install pgn-extract and copy its eco.pgn
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pgn-extract
+          mkdir -p data
+          # Package location is standard on Linux distros:
+          cp /usr/share/pgn-extract/eco.pgn data/eco-pgn-extract.pgn
+
+      # --- Lichess flavor (built from TSVs) ---
+      - name: Checkout Lichess chess-openings
         uses: actions/checkout@v4
         with:
           repository: lichess-org/chess-openings
@@ -26,37 +37,43 @@ jobs:
         with:
           python-version: "3.11"
 
-      # Generate eco.pgn from Lichess TSVs (a.tsv...e.tsv)
-      - name: Build eco.pgn from TSV
+      - name: Generate eco-lichess.pgn from TSVs
         run: |
-          set -euo pipefail
-          mkdir -p data
           python - <<'PY'
           import csv, pathlib
 
-          base = pathlib.Path('chess-openings')
-          out  = pathlib.Path('data/eco.pgn')
-          files = [base / f"{ch}.tsv" for ch in "abcde"]
+          src = pathlib.Path('chess-openings')
+          out = pathlib.Path('data/eco-lichess.pgn')
+          files = [src / f"{ch}.tsv" for ch in "abcde"]
 
           rows = []
           for f in files:
             with f.open(newline='', encoding='utf-8') as fh:
               r = csv.DictReader(fh, delimiter='\t')
               for row in r:
-                eco = (row.get('eco') or row.get('ECO') or '').strip()
-                name = (row.get('name') or row.get('Name') or '').strip()
-                pgn = (row.get('pgn') or row.get('PGN') or '').strip()
-                if eco and name and pgn:
-                  rows.append((eco, name, pgn))
-          rows.sort(key=lambda x: x[0])  # sort by ECO code
+                eco = (row.get('eco') or '').strip()
+                name = (row.get('name') or '').strip()
+                pgn  = (row.get('pgn') or '').strip()
+                if not (eco and name and pgn):
+                  continue
+                rows.append((eco, name, pgn))
 
+          # Sort by ECO, then name then pgn for stable output
+          rows.sort(key=lambda x: (x[0], x[1], x[2]))
+
+          def split_name(n):
+            if ': ' in n:
+              fam, var = n.split(': ', 1)
+            else:
+              fam, var = n, ''
+            return fam, var
+
+          # Write PGN entries similar to pgn-extract structure
+          out.parent.mkdir(parents=True, exist_ok=True)
           with out.open('w', encoding='utf-8', newline='\n') as w:
-            for eco, name, pgn in rows:
-              if ': ' in name:
-                fam, var = name.split(': ', 1)
-              else:
-                fam, var = name, ''
-              w.write('[Event "?"]\n')
+            for eco, name, line in rows:
+              opening, variation = split_name(name)
+              w.write('[Event "ECO"]\n')
               w.write('[Site "lichess-org/chess-openings"]\n')
               w.write('[Date "????.??.??"]\n')
               w.write('[Round "?"]\n')
@@ -64,31 +81,32 @@ jobs:
               w.write('[Black "?"]\n')
               w.write('[Result "*"]\n')
               w.write(f'[ECO "{eco}"]\n')
-              w.write(f'[Opening "{fam}"]\n')
-              if var:
-                w.write(f'[Variation "{var}"]\n')
+              w.write(f'[Opening "{opening}"]\n')
+              if variation:
+                w.write(f'[Variation "{variation}"]\n')
               w.write('\n')
-              mv = pgn
-              if not mv.endswith(('*','1-0','0-1','1/2-1/2')):
-                mv = (mv + ' *').strip()
-              w.write(mv + '\n\n')
-          print(f"Wrote {len(rows)} records to {out}")
+              moves = line.strip()
+              if not moves.endswith(('*','1-0','0-1','1/2-1/2')):
+                moves += ' *'
+              w.write(moves + '\n\n')
+          print(f"wrote {out}")
           PY
 
-      - name: Commit & push if changed
-        run: |
-          if [ -n "$(git status --porcelain data/eco.pgn)" ]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/eco.pgn
-            git commit -m "Update eco.pgn from lichess TSVs"
-            git push
-          else
-            echo "No changes to commit."
-          fi
-
-      - name: Upload eco.pgn as artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: eco.pgn
-          path: data/eco.pgn
+          name: eco-files
+          path: |
+            data/eco-pgn-extract.pgn
+            data/eco-lichess.pgn
+
+      # Commit via PR (safe for protected default branches)
+      - name: Create PR with updates
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Update eco files (pgn-extract + Lichess)"
+          title: "Update eco files (pgn-extract + Lichess)"
+          branch: update-eco
+          add-paths: |
+            data/eco-pgn-extract.pgn
+            data/eco-lichess.pgn
