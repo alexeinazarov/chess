@@ -3,17 +3,21 @@ name: Build eco.pgn
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "0 3 * * 1"   # optional weekly update (Mon 03:00 UTC)
+    - cron: "0 3 * * 1"   # weekly (Mon 03:00 UTC)
 
 permissions:
-  contents: write
+  contents: write   # allow commits with GITHUB_TOKEN
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repo
+      - name: Checkout repository (main)
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0            # safer for committing/pushing
+          persist-credentials: true # lets git use GITHUB_TOKEN
 
       - name: Checkout lichess chess-openings
         uses: actions/checkout@v4
@@ -76,13 +80,20 @@ jobs:
           PY
 
       - name: Commit & push if changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -n "$(git status --porcelain data/eco.pgn)" ]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          set -euo pipefail
+          # Ensure pushes authenticate via GITHUB_TOKEN
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # Commit only if data/eco.pgn changed
+          if ! git diff --quiet -- data/eco.pgn; then
             git add data/eco.pgn
             git commit -m "Update eco.pgn from lichess TSVs"
-            git push
+            git push origin HEAD:main
           else
             echo "No changes to commit."
           fi
