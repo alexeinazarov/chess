@@ -7320,6 +7320,66 @@
 [Black "?"]
 [Result "*"]
 [ECO "A48"]
+[Opening "London System"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
+[Opening "London System, with Bd3"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 5. Bd3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
+[Opening "London System, with Be2"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 5. Be2 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
+[Opening "London System, with Be2"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 5. Be2 O-O *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
+[Opening "London System, with Be2"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 5. h3 c5 6. Be2 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
 [Opening "Queen's Pawn Game"]
 [Variation "Barry Attack"]
 
