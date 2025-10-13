@@ -29066,6 +29066,19 @@
 [Result "*"]
 [ECO "C47"]
 [Opening "Four Knights Game"]
+[Variation "Glek System"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. g3 d5 5. exd5 Nxd5 6. Bg2 Nxc3 7. bxc3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C47"]
+[Opening "Four Knights Game"]
 [Variation "Gunsberg Variation"]
 
 1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. a3 *
