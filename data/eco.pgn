@@ -7632,6 +7632,18 @@
 [ECO "A48"]
 [Opening "London System"]
 
+1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A48"]
+[Opening "London System"]
+
 1. d4 Nf6 2. Nf3 g6 3. Bf4 Bg7 4. e3 d6 *
 
 [Event "?"]
@@ -31234,6 +31246,32 @@
 [Result "*"]
 [ECO "C54"]
 [Opening "Italian Game"]
+[Variation "Classical Variation, Giuoco Pianissimo"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. d3 O-O 6. c3 d5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[Opening "Italian Game"]
+[Variation "Classical Variation, Giuoco Pianissimo"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. d3 O-O 6. c3 d6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[Opening "Italian Game"]
 [Variation "Classical Variation, Giuoco Pianissimo, Albin Variation"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d3 d6 6. b4 *
@@ -31406,6 +31444,19 @@
 [Variation "Classical Variation, Greco Gambit, Traditional Line"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. cxd4 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[Opening "Italian Game"]
+[Variation "Classical Variation, with d5"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d3 d5 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
