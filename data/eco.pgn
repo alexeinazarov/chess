@@ -3128,6 +3128,18 @@
 [ECO "A07"]
 [Opening "King's Indian Attack, with Bf5"]
 
+1. Nf3 Nf6 2. g3 d5 3. Bg2 c6 4. O-O Bf5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A07"]
+[Opening "King's Indian Attack, with Bf5"]
+
 1. Nf3 Nf6 2. g3 d5 3. Bg2 c6 4. O-O Bf5 5. d3 h6 6. c4 dxc4 *
 
 [Event "?"]
@@ -3141,6 +3153,18 @@
 [Opening "King's Indian Attack, with Bf5"]
 
 1. Nf3 Nf6 2. g3 d5 3. Bg2 c6 4. O-O Bf5 5. d3 e6 6. Nh4 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A07"]
+[Opening "King's Indian Attack, with e6"]
+
+1. Nf3 Nf6 2. g3 d5 3. Bg2 e6 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -3815,6 +3839,32 @@
 [Variation "Anglo-Slav Variation, with g3"]
 
 1. c4 c6 2. Nf3 d5 3. g3 Nf6 4. Bg2 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A11"]
+[Opening "Réti Opening"]
+[Variation "Anglo-Slav Variation, with g3"]
+
+1. c4 c6 2. Nf3 d5 3. g3 Nf6 4. Bg2 dxc4 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A11"]
+[Opening "Réti Opening"]
+[Variation "Anglo-Slav Variation, with g3"]
+
+1. c4 c6 2. Nf3 d5 3. g3 Nf6 4. Bg2 Bf5 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -6992,6 +7042,19 @@
 [Opening "Indian Defense"]
 
 1. d4 Nf6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A45"]
+[Opening "Indian Defense"]
+[Variation "Accelerated London System"]
+
+1. d4 Nf6 2. Bf4 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -29583,6 +29646,19 @@
 [Result "*"]
 [ECO "C47"]
 [Opening "Four Knights Game"]
+[Variation "Scotch Variation Accepted, Main Line"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. d4 exd4 5. Nxd4 Bb4 6. Nxc6 bxc6 7. Bd3 d5 8. exd5 O-O 9. O-O *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C47"]
+[Opening "Four Knights Game"]
 [Variation "Scotch Variation, Belgrade Gambit"]
 
 1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. d4 exd4 5. Nd5 *
@@ -31363,19 +31439,6 @@
 [Result "*"]
 [ECO "C54"]
 [Opening "Italian Game"]
-[Variation "Classical Variation, Greco Gambit"]
-
-1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4 Bc5 5. c3 Nf6 6. e5 d5 *
-
-[Event "?"]
-[Site "lichess-org/chess-openings"]
-[Date "????.??.??"]
-[Round "?"]
-[White "?"]
-[Black "?"]
-[Result "*"]
-[ECO "C54"]
-[Opening "Italian Game"]
 [Variation "Classical Variation, Greco Gambit, Anderssen Variation"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. e5 d5 7. Bb5 Ne4 8. cxd4 Bb4+ *
@@ -31405,6 +31468,32 @@
 [Variation "Classical Variation, Greco Gambit, Main Line"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. cxd4 Bb4+ 7. Nc3 Nxe4 8. O-O Bxc3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[Opening "Italian Game"]
+[Variation "Classical Variation, Greco Gambit, Modern Line"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. e5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[Opening "Italian Game"]
+[Variation "Classical Variation, Greco Gambit, Modern Line"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. e5 d5 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
