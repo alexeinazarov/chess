@@ -917,6 +917,30 @@
 [Black "?"]
 [Result "*"]
 [ECO "A00"]
+[Opening "Polish Opening, with d5"]
+
+1. b4 d5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[Opening "Polish Opening, with d5"]
+
+1. b4 d5 2. Bb2 Nf6 3. Nf3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
 [Opening "Polish Opening"]
 [Variation "Baltic Defense"]
 
@@ -2834,7 +2858,7 @@
 [Opening "Polish Opening"]
 [Variation "Zukertort System"]
 
-1. Nf3 Nf6 2. b4 *
+1. Nf3 Nf6 2. b4 g6 3. Bb2 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -4561,6 +4585,18 @@
 [White "?"]
 [Black "?"]
 [Result "*"]
+[ECO "A15"]
+[Opening "English Orangutan"]
+
+1. c4 Nf6 2. Nf3 g6 3. b4 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
 [ECO "A16"]
 [Opening "English Opening"]
 [Variation "Anglo-Grünfeld Defense"]
@@ -5788,6 +5824,45 @@
 [Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
 
 1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A37"]
+[Opening "English Opening"]
+[Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
+
+1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A37"]
+[Opening "English Opening"]
+[Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
+
+1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 7. a3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A37"]
+[Opening "English Opening"]
+[Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
+
+1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 7. d3 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -16830,19 +16905,6 @@
 [Result "*"]
 [ECO "B33"]
 [Opening "Sicilian Defense"]
-[Variation "Four Knights Variation, Cobra Variation"]
-
-1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e6 6. Ndb5 Bc5 *
-
-[Event "?"]
-[Site "lichess-org/chess-openings"]
-[Date "????.??.??"]
-[Round "?"]
-[White "?"]
-[Black "?"]
-[Result "*"]
-[ECO "B33"]
-[Opening "Sicilian Defense"]
 [Variation "Lasker-Pelikan Variation"]
 
 1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 *
@@ -17597,9 +17659,35 @@
 [Result "*"]
 [ECO "B45"]
 [Opening "Sicilian Defense"]
+[Variation "Four Knights Variation, Cobra Variation"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 Nf6 6. Ndb5 Bc5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B45"]
+[Opening "Sicilian Defense"]
 [Variation "Four Knights Variation, Exchange Variation"]
 
-1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Nxc6 *
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 Nf6 6. Nxc6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B45"]
+[Opening "Sicilian Defense"]
+[Variation "Four Knights Variation, Sveshnikov Transfer"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 Nf6 6. Ndb5 d6 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
