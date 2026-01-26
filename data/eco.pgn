@@ -3481,6 +3481,19 @@
 [Result "*"]
 [ECO "A09"]
 [Opening "Réti Opening"]
+[Variation "Advance Variation, Navara Gambit"]
+
+1. Nf3 d5 2. c4 d4 3. b4 g5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A09"]
+[Opening "Réti Opening"]
 [Variation "Penguin Variation"]
 
 1. Nf3 d5 2. c4 d4 3. Rg1 *
@@ -5872,6 +5885,19 @@
 [Opening "English Opening"]
 [Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
 
+1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O d6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A37"]
+[Opening "English Opening"]
+[Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
+
 1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 *
 
 [Event "?"]
@@ -5899,6 +5925,19 @@
 [Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
 
 1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 7. d3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "A37"]
+[Opening "English Opening"]
+[Variation "Symmetrical Variation, Botvinnik System Reversed, with Nf3"]
+
+1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e5 6. O-O Nge7 7. d3 d6 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -14577,6 +14616,19 @@
 [Result "*"]
 [ECO "B15"]
 [Opening "Caro-Kann Defense"]
+[Variation "Tartakower Variation, Perlis Line"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Nxf6+ exf6 6. c3 Bd6 7. Bd3 O-O 8. Qc2 h6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B15"]
+[Opening "Caro-Kann Defense"]
 [Variation "von Hennig Gambit"]
 
 1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Bc4 *
@@ -15252,6 +15304,19 @@
 [Result "*"]
 [ECO "B21"]
 [Opening "Sicilian Defense"]
+[Variation "McDonnell Attack, Toilet Variation"]
+
+1. e4 c5 2. f4 d5 3. Nc3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B21"]
+[Opening "Sicilian Defense"]
 [Variation "Morphy Gambit"]
 
 1. e4 c5 2. d4 cxd4 3. Nf3 *
@@ -15629,6 +15694,19 @@
 [Result "*"]
 [ECO "B22"]
 [Opening "Sicilian Defense"]
+[Variation "Alapin Variation, Anti-Alapin Gambit"]
+
+1. e4 c5 2. c3 d5 3. exd5 Nf6 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B22"]
+[Opening "Sicilian Defense"]
 [Variation "Alapin Variation, Barmen Defense"]
 
 1. e4 c5 2. c3 d5 3. exd5 Qxd5 *
@@ -15788,6 +15866,19 @@
 [Variation "Closed"]
 
 1. e4 c5 2. Nc3 e6 3. g3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B23"]
+[Opening "Sicilian Defense"]
+[Variation "Closed, Carlsen Variation"]
+
+1. e4 c5 2. Nc3 d6 3. d4 cxd4 4. Qxd4 Nc6 5. Qd2 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -18887,6 +18978,19 @@
 [White "?"]
 [Black "?"]
 [Result "*"]
+[ECO "B75"]
+[Opening "Sicilian Defense"]
+[Variation "Dragon Variation, Yugoslav Attack, Hungarian Dragon"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 g6 6. Be3 Nc6 7. f3 h5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
 [ECO "B76"]
 [Opening "Sicilian Defense"]
 [Variation "Dragon Variation, Yugoslav Attack"]
@@ -19009,6 +19113,19 @@
 [Variation "Dragon Variation, Yugoslav Attack"]
 
 1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 g6 6. Be3 Bg7 7. f3 O-O 8. Qd2 Nc6 9. Bc4 Bd7 10. O-O-O *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "B78"]
+[Opening "Sicilian Defense"]
+[Variation "Dragon Variation, Yugoslav Attack, Chinese Dragon"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 g6 6. Be3 Bg7 7. f3 O-O 8. Qd2 Nc6 9. Bc4 Bd7 10. O-O-O Rb8 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
@@ -29926,6 +30043,19 @@
 [Result "*"]
 [ECO "C47"]
 [Opening "Four Knights Game"]
+[Variation "Naroditsky Variation"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Nd5 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "C47"]
+[Opening "Four Knights Game"]
 [Variation "Scotch Variation"]
 
 1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. d4 *
@@ -37608,6 +37738,19 @@
 [Variation "Albin Countergambit, Normal Line"]
 
 1. d4 d5 2. c4 e5 3. dxe5 d4 4. Nf3 *
+
+[Event "?"]
+[Site "lichess-org/chess-openings"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[ECO "D08"]
+[Opening "Queen's Gambit Declined"]
+[Variation "Albin Countergambit, Spassky Variation"]
+
+1. d4 d5 2. c4 e5 3. dxe5 d4 4. e4 *
 
 [Event "?"]
 [Site "lichess-org/chess-openings"]
